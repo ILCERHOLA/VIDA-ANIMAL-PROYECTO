@@ -1,0 +1,17 @@
+{
+  "name": "vida-animal-proyecto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:frontend": "cd vida-animal-frontend && npm start",
+    "start:backend": "cd Vida-Animal-Backend && npm run dev",
+    "dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
