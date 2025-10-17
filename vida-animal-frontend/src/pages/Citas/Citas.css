@@ -1,0 +1,85 @@
+/* Contenedor principal */
+.citas-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fdfdfd;
+  font-family: Arial, sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* Título principal */
+.citas-container h1 {
+  color: #6a1b9a;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Subtítulo */
+.citas-container h2 {
+  color: #6a1b9a;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Formulario de registro */
+.formulario-cita {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.formulario-cita input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline-color: #6a1b9a;
+}
+
+.formulario-cita button {
+  padding: 0.8rem;
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-cita button:hover {
+  background-color: #4a148c;
+}
+
+/* Lista de citas registradas */
+.lista-citas {
+  margin-top: 2rem;
+}
+
+.lista-citas ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-citas li {
+  background-color: #f3e5f5;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #4a148c;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Footer institucional */
+.footer-citas {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+}

@@ -1,0 +1,104 @@
+/* Contenedor principal */
+.inicio-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+}
+
+/* Misión y Visión */
+.bienvenida h1 {
+  color: #4a148c;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.bienvenida p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Servicios destacados */
+.servicios-destacados {
+  margin-top: 2rem;
+}
+
+.servicios-destacados h2 {
+  color: #6a1b9a;
+  margin-bottom: 1rem;
+}
+
+.servicios-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.servicio {
+  width: 300px;
+  text-align: center;
+}
+
+.servicio img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.servicio p {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Accesos rápidos */
+.accesos-rapidos {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.accesos-rapidos h2 {
+  color: #6a1b9a;
+  margin-bottom: 1rem;
+}
+
+.botones-acceso {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.botones-acceso button {
+  padding: 0.6rem 1.2rem;
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.botones-acceso button:hover {
+  background-color: #4a148c;
+}
+
+/* 🔗 Menú principal con efecto flotante */
+.nav-link {
+  color: #6a1b9a;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  font-weight: 700;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+  color: #4a148c;
+}

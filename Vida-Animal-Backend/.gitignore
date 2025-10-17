@@ -1,0 +1,12 @@
+node_modules/
+.env
+src/services/firebase.config.js
+src/services/firebase-key.json
+src/security/secret.ts
+node_modules
+config/passwords.txtnode_modules/
+.env
+*.log
+coverage/
+dist/
+.DS_Store

@@ -2,88 +2,109 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const db = require('./config/db');
-const usuariosRoutes = require('./routes/usuarios.routes.js');
+const verificarToken = require('./middleware/verificarToken');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// 🛡️ Middleware
 app.use(cors());
 app.use(express.json());
 
-// 👤 Ruta de usuarios
-app.use('/api/usuarios', usuariosRoutes);
-
-// 📅 Ruta para guardar una cita
+// ✅ Ruta para guardar una cita
 app.post('/api/citas', (req, res) => {
   const { nombre, fecha, motivo } = req.body;
+  console.log("📦 POST /api/citas:", req.body);
+
+  if (!nombre || !fecha || !motivo) {
+    return res.status(400).json({ error: 'Faltan datos' });
+  }
 
   const query = 'INSERT INTO citas (nombre, fecha, motivo) VALUES (?, ?, ?)';
   db.query(query, [nombre, fecha, motivo], (err, result) => {
     if (err) {
-      console.error('Error al guardar cita:', err);
-      return res.status(500).json({ error: 'Error al guardar cita' });
+      console.error('❌ Error al guardar cita:', err.sqlMessage || err.message || err);
+      return res.status(500).json({ error: 'Error al guardar cita', detalle: err.sqlMessage });
     }
     res.status(201).json({ mensaje: 'Cita guardada correctamente', id: result.insertId });
   });
 });
 
-// 📋 Ruta para mostrar todas las citas
+// ✅ Ruta para mostrar todas las citas
 app.get('/api/citas', (req, res) => {
   db.query('SELECT * FROM citas', (err, results) => {
     if (err) {
-      console.error('Error al obtener citas:', err);
-      return res.status(500).json({ error: 'Error al obtener citas' });
+      console.error('❌ Error al obtener citas:', err.sqlMessage || err.message || err);
+      return res.status(500).json({ error: 'Error al obtener citas', detalle: err.sqlMessage });
     }
     res.json(results);
   });
 });
 
-// 🐾 Ruta para mostrar servicios
-app.get('/api/servicios', (req, res) => {
-  db.query('SELECT * FROM servicios', (err, results) => {
+// ✅ Ruta para registrar mascota
+app.post('/api/mascotas', (req, res) => {
+  const { nombre, especie, edad } = req.body;
+  console.log("📦 POST /api/mascotas:", req.body);
+
+  if (!nombre || !especie || !edad) {
+    return res.status(400).json({ error: 'Faltan datos' });
+  }
+
+  const query = 'INSERT INTO mascotas (nombre, especie, edad) VALUES (?, ?, ?)';
+  db.query(query, [nombre, especie, edad], (err, result) => {
     if (err) {
-      console.error('Error al obtener servicios:', err);
-      return res.status(500).json({ error: 'Error al obtener servicios' });
+      console.error('❌ Error al guardar mascota:', err.sqlMessage || err.message || err);
+      return res.status(500).json({ error: 'Error al guardar mascota', detalle: err.sqlMessage });
     }
-    res.json(results);
+    res.status(201).json({ mensaje: 'Mascota registrada correctamente', id: result.insertId });
   });
 });
 
-// 🐶 Ruta para mostrar mascotas
-app.get('/api/mascotas', (req, res) => {
-  db.query('SELECT * FROM mascotas', (err, results) => {
+app.post('/api/contactos', (req, res) => {
+  const { nombre, email, asunto, mensaje } = req.body;
+  console.log("📦 POST /api/contactos:", req.body);
+
+  if (!nombre || !email || !asunto || !mensaje) {
+    return res.status(400).json({ error: 'Faltan datos' });
+  }
+
+  const query = 'INSERT INTO contactos (nombre, email, asunto, mensaje) VALUES (?, ?, ?, ?)';
+  db.query(query, [nombre, email, asunto, mensaje], (err, result) => {
     if (err) {
-      console.error('Error al obtener mascotas:', err);
-      return res.status(500).json({ error: 'Error al obtener mascotas' });
+      console.error('❌ Error al guardar contacto:', err.sqlMessage || err.message || err);
+      return res.status(500).json({ error: 'Error al guardar contacto', detalle: err.sqlMessage });
     }
-    res.json(results);
+    res.status(201).json({ mensaje: 'Contacto registrado correctamente', id: result.insertId });
   });
 });
 
-// 📨 Ruta para guardar contacto en la base de datos vida_animal.contactos
-app.post('/api/contacto', (req, res) => {
-  const { nombre, email, mensaje } = req.body;
 
-  const query = 'INSERT INTO contactos (nombre, email, mensaje) VALUES (?, ?, ?)';
-  db.query(query, [nombre, email, mensaje], (err, result) => {
-    if (err) {
-      console.error('❌ Error al guardar contacto:', err);
-      return res.status(500).json({ error: 'Error al guardar contacto' });
-    }
-    res.status(201).json({
-      mensaje: 'Contacto guardado correctamente',
-      id: result.insertId
-    });
-  });
-});
-
-// 🌐 Ruta raíz
-app.get('/', (req, res) => {
-  res.send('Bienvenido al backend de Veterinaria Vida Animal');
-});
-
-// 🚀 Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+});
+const jwt = require('jsonwebtoken');
+
+// ✅ Ruta para login y generación de token
+app.post('/api/login', (req, res) => {
+  const { correo } = req.body;
+  console.log("🔐 POST /api/login:", req.body);
+
+  if (!correo) {
+    return res.status(400).json({ error: 'Correo requerido' });
+  }
+
+  const query = 'SELECT * FROM usuarios WHERE correo = ?';
+  db.query(query, [correo], (err, resultados) => {
+    if (err) {
+      console.error('❌ Error en login:', err.sqlMessage || err.message || err);
+      return res.status(500).json({ error: 'Error en la base de datos' });
+    }
+
+    if (resultados.length === 0) {
+      return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+
+    const token = jwt.sign({ correo }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ mensaje: 'Login exitoso', token });
+  });
 });

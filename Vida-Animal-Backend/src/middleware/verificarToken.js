@@ -1,16 +1,20 @@
-const admin = require('../services/firebase.config');
+const jwt = require('jsonwebtoken');
 
-const verificarToken = async (req, res, next) => {
-  const token = req.headers.authorization?.split('Bearer ')[1];
-  if (!token) return res.status(401).send({ error: 'Token no proporcionado' });
+function verificarToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-  try {
-    const decoded = await admin.auth().verifyIdToken(token);
-    req.usuario = decoded;
-    next();
-  } catch (error) {
-    res.status(401).send({ error: 'Token inválido o expirado' });
+  if (!token) {
+    return res.status(401).json({ error: 'Token no proporcionado' });
   }
-};
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, usuario) => {
+    if (err) {
+      return res.status(403).json({ error: 'Token inválido' });
+    }
+    req.usuario = usuario;
+    next();
+  });
+}
 
 module.exports = verificarToken;
