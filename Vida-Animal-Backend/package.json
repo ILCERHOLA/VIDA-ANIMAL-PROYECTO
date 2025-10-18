@@ -2,11 +2,10 @@
   "name": "vida-animal-root",
   "version": "1.0.0",
   "scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "nodemon": "^3.1.10"
   },
   "description": "Este proyecto es el backend para la plataforma **Vida Animal**, diseñado para gestionar información sobre animales, usuarios y dispositivos conectados (como ESP32). Está construido con **Node.js**, **Express** y **MySQL**.",
@@ -17,7 +16,6 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
-    "rxjs": "^7.8.2",
     "y18n": "^5.0.8"
   },
   "repository": {
